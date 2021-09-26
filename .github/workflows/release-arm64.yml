@@ -145,7 +145,6 @@ jobs:
         env:
           RUNC_FLAVOR: runc
           GOARCH: arm64
-          CC: aarch64-linux-gnu-gcc
           CGO_ENABLED: 1
         run: |
           if [[ "${OS}" == "linux" ]]; then
