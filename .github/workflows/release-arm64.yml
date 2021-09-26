@@ -73,6 +73,7 @@ jobs:
               crossbuild-essential-arm64 \
               libseccomp-dev:arm64 \
               libbtrfs-dev:arm64 \
+              libseccomp-dev:arm64 \
       - name: Set env
         shell: bash
         env:
@@ -147,9 +148,9 @@ jobs:
           GOARCH: arm64
           CC: aarch64-linux-gnu-gcc
         run: |
-          if [[ "${OS}" == "linux" ]]; then
-            sudo -E PATH=$PATH script/setup/install-seccomp
-          fi
+#          if [[ "${OS}" == "linux" ]]; then
+#            sudo -E PATH=$PATH script/setup/install-seccomp
+#          fi
           make cri-cni-release
         working-directory: src/github.com/hhstu/containerd
 
