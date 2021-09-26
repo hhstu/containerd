@@ -63,7 +63,16 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.16.4'
-
+      - name: Install dependencies
+        run: |
+            sudo add-apt-repository "deb [arch=arm64,s390x,ppc64el] http://ports.ubuntu.com/ubuntu-ports/ $(lsb_release -sc) main" || true
+            sudo add-apt-repository "deb [arch=arm64,s390x,ppc64el] http://ports.ubuntu.com/ubuntu-ports/ $(lsb_release -sc)-updates main" || true
+            sudo dpkg --add-architecture arm64
+            sudo apt-get update || true
+            sudo apt-get install -y \
+              crossbuild-essential-arm64 \
+              libseccomp-dev:arm64 \
+              libbtrfs-dev:arm64 \
       - name: Set env
         shell: bash
         env:
@@ -136,6 +145,8 @@ jobs:
         env:
           RUNC_FLAVOR: runc
           GOARCH: arm64
+          CC: aarch64-linux-gnu-gcc
+          CGO_ENABLED: 1
         run: |
           if [[ "${OS}" == "linux" ]]; then
             sudo -E PATH=$PATH script/setup/install-seccomp
